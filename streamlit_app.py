@@ -1,3 +1,4 @@
+import os
 import streamlit as st
 from langchain_openai.chat_models import ChatOpenAI
 
@@ -6,8 +7,11 @@ from reviews import GoogleReviewsScrapper
 
 st.title("📍🗣️ What Reviewers Say? based on Latest Reviews")
 
-openai_api_key = st.sidebar.text_input("OpenAI API Key", type="password")
-outscraper_api_key = st.sidebar.text_input("Outscraper API Key", type="password")
+# openai_api_key = st.sidebar.text_input("OpenAI API Key", type="password")
+# outscraper_api_key = st.sidebar.text_input("Outscraper API Key", type="password")
+
+openai_api_key = os.environ["OPENAI_API_KEY"]
+outscraper_api_key = os.environ["OUTSCRAPER_API_KEY"]
 
 reviews_scraper = GoogleReviewsScrapper(outscraper_api_key)
 
@@ -55,7 +59,7 @@ def generate_review_info(search_query):
 with st.form("my_form"):
     text = st.text_area(
         "Enter name of place and location:",
-        "Sarjapur Social",
+        "Rameshwaram Cafe, Indiranagar",
     )
     submitted = st.form_submit_button("Submit")
     if not openai_api_key.startswith("sk-"):
