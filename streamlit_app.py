@@ -5,7 +5,10 @@ from langchain_openai.chat_models import ChatOpenAI
 from reviews import GoogleReviewsScrapper
 
 
-st.title("📍🗣️ What Reviewers Say? based on Latest Reviews")
+st.title("📍🗣️ What :blue[Reviewers] Say? based on Latest Reviews")
+st.caption("Did it ever happen to you, that Google Review Rating of a restaurant or that museum showed 4+ rating, but after going there you realized it was not worth it? Well, we summarize the latest Google Reviews of a place, which we consider a very relevant relevant signal, in a easy to read format for you.")
+st.subheader(":blue[Hit search] before you go!")
+
 
 # openai_api_key = st.sidebar.text_input("OpenAI API Key", type="password")
 # outscraper_api_key = st.sidebar.text_input("Outscraper API Key", type="password")
@@ -65,5 +68,7 @@ with st.form("my_form"):
     if not openai_api_key.startswith("sk-"):
         st.warning("Please enter your OpenAI API key!", icon="⚠")
     if submitted and openai_api_key.startswith("sk-"):
-        review_info = generate_review_info(text)
-        generate_response(review_info)
+        with st.spinner('Fetching latest reviews...'):
+          review_info = generate_review_info(text)
+        with st.spinner('Generating a summary for you...'):
+          generate_response(review_info)
